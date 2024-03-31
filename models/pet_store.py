@@ -1,12 +1,12 @@
 from models.__init__ import CURSOR, CONN
 
-class Pet_store:
+class PetStore:
     def __init__(self, name, species, breed, age):
         self.name = name
         self.species = species
         self.breed = breed
         self.age = age
-        self.pets = []
+        # self.pets = []
 
     @classmethod
     def create_table(cls):
