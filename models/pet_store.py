@@ -1,6 +1,9 @@
 from models.__init__ import CURSOR, CONN
 
 class PetStore:
+
+    all = {}
+
     def __init__(self, name, location, id = None):
         self.id = id
         self.name = name
@@ -12,7 +15,7 @@ class PetStore:
     @classmethod
     def create_table(cls):
         sql = '''
-            CREATE TABLE IF NOT EXISTS store (
+            CREATE TABLE IF NOT EXISTS stores (
             id INTEGER PRIMARY KEY,
             name TEXT,
             location TEXT
@@ -24,8 +27,28 @@ class PetStore:
     @classmethod
     def drop_table(cls):
         sql = '''
-            DELETE TABLE IF EXISTS store
+            DROP TABLE IF EXISTS stores
         '''
 
         CURSOR.execute(sql)
         CONN.commit()
+
+    def save(self):
+        sql = '''
+            INSERT INTO stores (name, location)
+            VALUES (?, ?)
+        '''
+
+        CURSOR.execute(sql, (self.name, self.location))
+        CONN.commit()
+
+        self.id = CURSOR.lastrowid
+
+        PetStore.all[self.id] = self
+
+    @classmethod
+    def create(cls, name, location):
+        store = cls(name, location)
+        store.save()
+        return store
+    
