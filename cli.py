@@ -1,3 +1,7 @@
+from models.pet import Pet
+from models.pet_store import PetStore
+from models.pet_type import PetType
+
 def main():
     pet_list = []
 
@@ -12,11 +16,12 @@ def main():
 
         if choice == 1:
             print('Adding a pet...')
-            pet = input('Enter the name of the pet >>>')
+            name = input('Enter the name of the pet >>>')
             species = input('Enter the species of the pet >>>')
             breed = input('Enter the breed of the pet >>>')
-            age = input('Enter the age of the pet >>>')
-            pet_list.append([pet, species, breed, age])
+            price = input('Enter the price of the pet >>>')
+            new_pet = Pet(name, species, breed, price)
+            pet_list.append(new_pet)
         elif choice == 2:
             print('Looking up a pet...')
             keyword = input('Enter Search Term: ')
