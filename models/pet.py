@@ -3,16 +3,17 @@ class Pet:
 
     all = {}
 
-    def __init__(self, name, species, breed, age, price, id = None):
+    def __init__(self, name, species, breed, age, price, store_id, id = None):
         self.id = id
         self.name = name
         self.species = species
         self.breed = breed
         self.age = age
         self.price = price
+        self.store_id = store_id
 
     def __repr__(self):
-        return f'<Pet {self.id}: {self.name}, {self.breed}, {self.age}, {self.price}>'
+        return f'<Pet {self.id}: {self.name}, {self.breed}, {self.age}, {self.price}, {self.store_id}>'
 
     @classmethod
     def create_table(cls):
@@ -23,7 +24,9 @@ class Pet:
             species TEXT,
             breed TEXT,
             age INT,
-            price INT
+            price INT,
+            store_id INT,
+            FOREIGN KEY (store_id) REFERENCES store(id)
             )
         '''
         CURSOR.execute(sql)
@@ -39,10 +42,12 @@ class Pet:
 
     def save(self):
         sql = '''
-            INSERT INTO pets (name, species, breed, age, price)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO pets (name, species, breed, age, price, store_id)
+            VALUES (?, ?, ?, ?, ?, ?)
         '''
-        CURSOR.execute(sql, (self.name, self.species, self.breed, self.age, self.price))
+        CURSOR.execute(sql, (self.name, self.species, 
+                             self.breed, self.age, 
+                             self.price, self.store_id))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -50,19 +55,21 @@ class Pet:
         Pet.all[self.id] = self
 
     @classmethod
-    def create(cls, name, species, breed, age, price):
-        pet = cls(name, species, breed, age, price)
+    def create(cls, name, species, breed, age, price, store_id):
+        pet = cls(name, species, breed, age, price, store_id)
         pet.save()
         return pet
     
     def update(self):
         sql = '''
             UPDATE pets
-            SET name = ?, species = ?, breed = ?, age = ?, price = ?
+            SET name = ?, species = ?, breed = ?, age = ?, price = ?, store_id = ?
             WHERE id = ?
         '''
 
-        CURSOR.execute(sql, (self.name, self.species, self.breed, self.age, self.price, self.id))
+        CURSOR.execute(sql, (self.name, self.species, 
+                             self.breed, self.age, self.price, 
+                             self.store_id, self.id))
         CONN.commit()
 
     def delete(self):
@@ -74,6 +81,9 @@ class Pet:
         CURSOR.execute(sql, (self.id, ))
         CONN.commit()
 
+        del Pet.all[self.id]
+        self.id = None
+
     @classmethod
     def instance_from_db(cls, row):
         pet = cls.all.get(row[0])
@@ -83,8 +93,9 @@ class Pet:
             pet.breed = row[3]
             pet.age = row[4]
             pet.price = row[5]
+            pet.store_id = row[6]
         else:
-            pet = cls(row[1], row[2], row[3], row[4], row[5])
+            pet = cls(row[1], row[2], row[3], row[4], row[5], row[6])
             pet.id = row[0]
             cls.all[pet.id] = pet
         return pet
@@ -119,3 +130,4 @@ class Pet:
 
         row = CURSOR.execute(sql, (name, )).fetchone()
         return cls.instance_from_db(row) if row else None
+    

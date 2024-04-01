@@ -1,27 +1,27 @@
-
-from models.pet_type import PetType
-from models.pet import Pet
+from models.__init__ import CURSOR, CONN
 
 class PetStore:
-    def __init__(self):
-        self.pet_types = {}
-        self.pets = []
+    def __init__(self, name, location, id = None):
+        self.id = id
+        self.name = name
+        self.location = location
 
-    # def add_pet_type(self, pet_type):
-    #     sql = '''
-    #         INSTERT INTO pet_types (name)
-    #         VALUES (?)
-    #     '''
-    #     CURSOR.execute(sql, (self.name, ))
-
-    # def add_pet(self, pet_name, pet):
-    #     if pet_name in self.pet_types:
-    #         self.pet_types[pet_name].add_pet(pet)
-    #         self.pets.append(pet)
-    #     else:
-    #         print(f"Pet type '{pet_name}' does not exist in the store.")
-
-    # def list_available_pets(self):
-    #     for pet_type in self.pet_types.values():
-    #         print(pet_type)
-
+    def __repr__(self):
+        return f'<Store {self.id}: {self.name}, {self.location}>'
+    
+    @classmethod
+    def create_table(cls):
+        sql = '''
+            CREATE TABLE IF NOT EXISTS pets (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            species TEXT,
+            breed TEXT,
+            age INT,
+            price INT,
+            store_id INT,
+            FOREIGN KEY (store_id) REFERENCES store(id)
+            )
+        '''
+        CURSOR.execute(sql)
+        CONN.commit()
