@@ -13,8 +13,7 @@ class Pet:
         self.store_id = store_id
 
     def __repr__(self):
-        return f'<Pet {self.id}: {self.name}, 
-        {self.breed}, {self.age}, {self.price}, {self.store_id}>'
+        return f'<Pet {self.id}: {self.name}, {self.breed}, {self.age}, {self.price}, {self.store_id}>'
 
     @classmethod
     def create_table(cls):
