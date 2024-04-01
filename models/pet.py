@@ -1,10 +1,51 @@
+from models.__init__ import CURSOR, CONN
 class Pet:
-    def __init__(self, name, breed, price, pet_type_id, id = None):
+
+    all = {}
+
+    def __init__(self, name, species, breed, age, price, id = None):
         self.id = id
         self.name = name
+        self.species = species
         self.breed = breed
+        self.age = age
         self.price = price
-        self.pet_type_id = pet_type_id
 
     def __repr__(self):
-        return f'<Petid {self.id}: {self.name}, {self.breed}, {self.price}, pet_type_id={self.pet_type_id}>'
+        return f'<Pet {self.id}: {self.name}, {self.breed}, {self.age}, {self.price}>'
+
+    @classmethod
+    def create_table(cls):
+        sql = '''
+            CREATE TABLE IF NOT EXISTS pets (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            species TEXT,
+            breed TEXT,
+            age INT,
+            price INT
+            )
+        '''
+        CURSOR.execute(sql)
+        CONN.commit()
+
+    @classmethod
+    def drop_table(cls):
+        sql = '''
+            DROP TABLE IF EXISTS pets
+        '''
+        CURSOR.execute(sql)
+        CONN.commit()
+
+    def save(self):
+        sql = '''
+            INSERT INTO pets (name, species, breed, age, price)
+            VALUES (?, ?, ?, ?, ?)
+        '''
+        CURSOR.execute(sql, (self.name, self.species, self.breed, self.age, self.price))
+        CONN.commit()
+
+        self.id = CURSOR.lastrowid
+
+        Pet.all[self.id] = self
+
