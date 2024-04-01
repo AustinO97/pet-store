@@ -9,5 +9,8 @@ def reset_database():
 
 reset_database()
 
+roo = Pet.create('roo', 'cat', 'black/white', 3, 150)
+lobs = Pet.create('lobs', 'cat', 'orange', 2, 150)
+bean = Pet.create('bean', 'cat', 'spotted', 1, 0)
 
 ipdb.set_trace()

@@ -49,3 +49,9 @@ class Pet:
 
         Pet.all[self.id] = self
 
+    @classmethod
+    def create(cls, name, species, breed, age, price):
+        pet = cls(name, species, breed, age, price)
+        pet.save()
+        return pet
+    
