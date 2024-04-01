@@ -13,7 +13,8 @@ class Pet:
         self.store_id = store_id
 
     def __repr__(self):
-        return f'<Pet {self.id}: {self.name}, {self.breed}, {self.age}, {self.price}, {self.store_id}>'
+        return f'<Pet {self.id}: {self.name}, 
+        {self.breed}, {self.age}, {self.price}, {self.store_id}>'
 
     @classmethod
     def create_table(cls):
@@ -131,3 +132,13 @@ class Pet:
         row = CURSOR.execute(sql, (name, )).fetchone()
         return cls.instance_from_db(row) if row else None
     
+    def store(self):
+        from pet_store import PetStore
+        sql = '''
+            SELECT * FROM stores
+            WHERE id = ?
+        '''
+
+        row = CURSOR.execute(sql, (self.store_id, )).fetchone()
+        store = PetStore.instance_from_db(row)
+        return store

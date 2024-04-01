@@ -89,11 +89,41 @@ class PetStore:
     @classmethod
     def get_all(cls, id):
         sql = '''
-            SELECT *
-            FROM stores
-            WHERE id = ?
+            SELECT * FROM stores
         '''
 
         rows = CURSOR.execute(sql).fetchall()
         return [cls.instance_from_db(row) for row in rows]
     
+    @classmethod
+    def find_by_id(cls, id):
+        sql = '''
+            SELECT *
+            FROM stores
+            WHERE id = ?
+        '''
+
+        row = CURSOR.execute(sql, (id, )).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
+    @classmethod
+    def find_by_name(cls, name):
+        sql = '''
+            SELECT * 
+            FROM stores
+            WHERE name = ?
+        '''
+
+        row = CURSOR.execute(sql, (name, )).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
+    def pets(self):
+        from models.pet import Pet
+        sql = '''
+            SELECT * FROM pets
+            WHERE store_id = ?
+        '''
+
+        rows = CURSOR.execute(sql, (self.id, )).fetchall()
+
+        return [Pet.instance_from_db(row) for row in rows]
