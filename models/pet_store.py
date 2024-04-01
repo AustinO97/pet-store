@@ -52,3 +52,25 @@ class PetStore:
         store.save()
         return store
     
+    def update(self):
+        sql = '''
+            UPDATE stores
+            SET name = ?, location = ?
+            WHERE id = ?
+        '''
+
+        CURSOR.execute(sql, (self.name, self.location))
+        CONN.commit()
+
+    def delete(self):
+        sql = '''
+            DELETE FROM stores
+            WHERE id = ?
+        '''
+
+        CURSOR.execute(sql, (self.id, ))
+        CONN.commit()
+
+        del PetStore.all[self.id]
+        self.id = None
+
