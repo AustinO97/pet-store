@@ -74,3 +74,26 @@ class PetStore:
         del PetStore.all[self.id]
         self.id = None
 
+    @classmethod
+    def instance_from_db(cls, row):
+        store = cls.all(row[0])
+        if store:
+            store.name = row[1]
+            store.location = row[2]
+        else:
+            store = cls(row[1], row[2])
+            store.id = row[0]
+            cls.all[store.id] = store
+        return store
+    
+    @classmethod
+    def get_all(cls, id):
+        sql = '''
+            SELECT *
+            FROM stores
+            WHERE id = ?
+        '''
+
+        rows = CURSOR.execute(sql).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
+    
