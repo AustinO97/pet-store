@@ -12,16 +12,20 @@ class PetStore:
     @classmethod
     def create_table(cls):
         sql = '''
-            CREATE TABLE IF NOT EXISTS pets (
+            CREATE TABLE IF NOT EXISTS store (
             id INTEGER PRIMARY KEY,
             name TEXT,
-            species TEXT,
-            breed TEXT,
-            age INT,
-            price INT,
-            store_id INT,
-            FOREIGN KEY (store_id) REFERENCES store(id)
+            location TEXT
             )
         '''
+        CURSOR.execute(sql)
+        CONN.commit()
+
+    @classmethod
+    def drop_table(cls):
+        sql = '''
+            DELETE TABLE IF EXISTS store
+        '''
+
         CURSOR.execute(sql)
         CONN.commit()
