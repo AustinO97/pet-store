@@ -55,3 +55,22 @@ class Pet:
         pet.save()
         return pet
     
+    def update(self):
+        sql = '''
+            UPDATE pets
+            SET name = ?, species = ?, breed = ?, age = ?, price = ?
+            WHERE id = ?
+        '''
+
+        CURSOR.execute(sql, (self.name, self.species, self.breed, self.age, self.price, self.id))
+        CONN.commit()
+
+    def delete(self):
+        sql = '''
+            DELETE FROM pets
+            WHERE id = ?
+        '''
+
+        CURSOR.execute(sql, (self.id, ))
+        CONN.commit()
+
