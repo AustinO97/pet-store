@@ -132,7 +132,7 @@ class Pet:
         return cls.instance_from_db(row) if row else None
     
     def store(self):
-        from pet_store import PetStore
+        from models.pet_store import PetStore
         sql = '''
             SELECT * FROM stores
             WHERE id = ?
