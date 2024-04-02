@@ -17,6 +17,14 @@ class Main():
         print('4. Delete a Pet')
         print('5. Back to Main Menu')
 
+    def display_store_management_menu(self):
+        print('\nPet Store Management Menu')
+        print('1. Add a Pet Store')
+        print('2. View All Pet Stores')
+        print('3. Update a Pet Store')
+        print('4. Delete a Pet Store')
+        print('5. Back to Main Menu')
+
 
 
 
