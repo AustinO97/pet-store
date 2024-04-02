@@ -26,6 +26,20 @@ class Main():
         print('5. Back to Main Menu')
 
 
+    def run(self):
+        while True:
+            self.display_main_menu()
+            choice = input('Enter your choice: ')
+            if choice == '1':
+                self.run_pet_management()
+            elif choice == '2':
+                self.run_store_management()
+            elif choice == '3':
+                print('Exiting program...')
+                break
+            else:
+                print('Invalid choice. Please try again.')
+
 
 
 if __name__ == "__main__":
