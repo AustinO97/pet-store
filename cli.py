@@ -1,6 +1,8 @@
 from models.pet import Pet
 from models.pet_store import PetStore
 
+from helpers import add_pet
+
 class Main():
 
     def display_main_menu(self):
@@ -45,13 +47,13 @@ class Main():
             self.display_pet_management_menu()
             choice = input('Enter your choice: ')
             if choice == '1':
-                self.add_pet_menu()
+                add_pet()
             elif choice == '2':
-                self.display_pet_list()
+                display_pet_list()
             elif choice == '3':
-                self.update_pet_menu()
+                update_pet()
             elif choice == '4':
-                self.delete_pet_menu()
+                delete_pet()
             elif choice == '5':
                 break
             else:
@@ -62,13 +64,13 @@ class Main():
             self.display_store_management_menu()
             choice = input('Enter your choice: ')
             if choice == '1':
-                self.add_pet_store_menu()
+                add_pet_store()
             elif choice == '2':
-                self.display_pet_store_list()
+                display_pet_store_list()
             elif choice == '3':
-                self.update_pet_store_menu()
+                update_pet_store()
             elif choice == '4':
-                self.delete_pet_store_menu()
+                delete_pet_store()
             elif choice == '5':
                 break
             else:
@@ -77,4 +79,5 @@ class Main():
 
 
 if __name__ == "__main__":
-    pass
+    cli = Main()
+    cli.run()
