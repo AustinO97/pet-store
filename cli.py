@@ -40,6 +40,40 @@ class Main():
             else:
                 print('Invalid choice. Please try again.')
 
+    def run_pet_management(self):
+        while True:
+            self.display_pet_management_menu()
+            choice = input('Enter your choice: ')
+            if choice == '1':
+                self.add_pet_menu()
+            elif choice == '2':
+                self.display_pet_list()
+            elif choice == '3':
+                self.update_pet_menu()
+            elif choice == '4':
+                self.delete_pet_menu()
+            elif choice == '5':
+                break
+            else:
+                print('Invalid choice. Please try again.')
+
+    def run_store_management(self):
+        while True:
+            self.display_store_management_menu()
+            choice = input('Enter your choice: ')
+            if choice == '1':
+                self.add_pet_store_menu()
+            elif choice == '2':
+                self.display_pet_store_list()
+            elif choice == '3':
+                self.update_pet_store_menu()
+            elif choice == '4':
+                self.delete_pet_store_menu()
+            elif choice == '5':
+                break
+            else:
+                print('Invalid choice. Please try again')
+
 
 
 if __name__ == "__main__":
