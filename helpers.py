@@ -17,7 +17,6 @@ def add_pet():
         pet = Pet.create(name, species, breed, age, price, store_id)
         print(pet) if pet else None
     except Exception as exc:
-        print('')
         print('Error creating pet: ', exc)
 
 def display_pet_list():
@@ -25,3 +24,20 @@ def display_pet_list():
     pets = Pet.get_all()
     for pet in pets:
         print(pet)
+
+def update_pet():
+    print('')
+    id_ = input("Enter the pet's id: ")
+    if pet := Pet.find_by_id(id_):
+        try:
+            name = input("Enter the pet's new name: ")
+            pet.name = name
+            price = input("Enter the pet's new price: ")
+            pet.price = price
+
+            pet.update()
+            print(f'Success: {pet}')
+        except Exception as exc:
+            print('Error updating pet: ', exc)
+    else:
+        print(f'Pet {id_} not found')
