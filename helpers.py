@@ -41,3 +41,12 @@ def update_pet():
             print('Error updating pet: ', exc)
     else:
         print(f'Pet {id_} not found')
+
+def delete_pet():
+    print('')
+    id_ = input("Enter the pet's id: ")
+    if pet := Pet.find_by_id(id_):
+        pet.delete()
+        print(f'Pet {id_} deleted')
+    else:
+        print(f'Pet {id_} not found')
