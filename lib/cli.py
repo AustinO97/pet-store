@@ -1,7 +1,7 @@
 from models.pet import Pet
 from models.pet_store import PetStore
 
-from helpers import add_pet, display_pet_list, update_pet, delete_pet, add_pet_store
+from helpers import add_pet, display_pets, update_pet, delete_pet, add_pet_store, display_pet_stores, update_pet_store, delete_pet_store
 
 class Main():
 
@@ -11,7 +11,7 @@ class Main():
         print('2. Manage Pet Stores')
         print('3. Quit')
 
-    def display_pet_management_menu(self):
+    def display_pet_menu(self):
         print('\nPet Management Menu')
         print('1. Add a Pet')
         print('2. View All Pets')
@@ -19,7 +19,7 @@ class Main():
         print('4. Delete a Pet')
         print('5. Back to Main Menu')
 
-    def display_store_management_menu(self):
+    def display_store_menu(self):
         print('\nPet Store Management Menu')
         print('1. Add a Pet Store')
         print('2. View All Pet Stores')
@@ -33,23 +33,23 @@ class Main():
             self.display_main_menu()
             choice = input('Enter your choice: ')
             if choice == '1':
-                self.run_pet_management()
+                self.pet_management()
             elif choice == '2':
-                self.run_store_management()
+                self.store_management()
             elif choice == '3':
                 print('Exiting program...')
                 break
             else:
                 print('Invalid choice. Please try again.')
 
-    def run_pet_management(self):
+    def pet_management(self):
         while True:
-            self.display_pet_management_menu()
+            self.display_pet_menu()
             choice = input('Enter your choice: ')
             if choice == '1':
                 add_pet()
             elif choice == '2':
-                display_pet_list()
+                display_pets()
             elif choice == '3':
                 update_pet()
             elif choice == '4':
@@ -59,14 +59,14 @@ class Main():
             else:
                 print('Invalid choice. Please try again.')
 
-    def run_store_management(self):
+    def store_management(self):
         while True:
-            self.display_store_management_menu()
+            self.display_store_menu()
             choice = input('Enter your choice: ')
             if choice == '1':
                 add_pet_store()
             elif choice == '2':
-                display_pet_store_list()
+                display_pet_stores()
             elif choice == '3':
                 update_pet_store()
             elif choice == '4':

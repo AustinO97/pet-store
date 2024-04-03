@@ -21,7 +21,7 @@ def add_pet():
     except Exception as exc:
         print('Error creating pet: ', exc)
 
-def display_pet_list():
+def display_pets():
     print('')
     pets = Pet.get_all()
     for pet in pets:
