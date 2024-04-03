@@ -73,3 +73,29 @@ def display_pet_stores():
     stores = PetStore.get_all()
     for store in stores:
         print(store)
+
+def update_pet_store():
+    print('')
+    id_ = input("Enter the store's id: ")
+    if store := PetStore.find_by_id(id_):
+        try:
+            name = input("Enter the store's new name: ")
+            store.name = name
+            location = input("Enter the store's new location: ")
+            store.location = location
+
+            store.update()
+            print(f'Success: {store}')
+        except Exception as exc:
+            print('Error updating store: ', exc)
+    else:
+        print(f'Store {id_} not found')
+
+def delete_pet_store():
+    print('')
+    id_ = input("Enter the store's id: ")
+    if store := PetStore.find_by_id(id_):
+        store.delete()
+        print(f'Store {id_} deleted')
+    else:
+        print(f'Store {id_} not found')
