@@ -67,3 +67,9 @@ def add_pet_store():
         print(store) if store else None
     except Exception as exc:
         print('Error creating store: ', exc)
+
+def display_pet_stores():
+    print('')
+    stores = PetStore.get_all()
+    for store in stores:
+        print(store)
