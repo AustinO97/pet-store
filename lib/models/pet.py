@@ -13,7 +13,74 @@ class Pet:
         self.store_id = store_id
 
     def __repr__(self):
-        return f'<Pet {self.id}: {self.name}, {self.breed}, {self.age}, {self.price}, {self.store_id}>'
+        return f'<Pet {self.id}: {self.name}, {self.species}, {self.breed}, {self.age}, {self.price}, {self.store_id}>'
+    
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self, name):
+        if isinstance(name, str) and len(name) >= 3:
+            self._name = name
+        else:
+            raise Exception('Name must be a string with 3 or more characters')
+        
+    @property
+    def species(self):
+        return self._species
+    
+    @species.setter
+    def species(self, species):
+        if isinstance(species, str) and len(species):
+            self._species = species
+        else:
+            raise Exception('Species must be a non-empty string')
+        
+    @property
+    def breed(self):
+        return self._breed
+    
+    @breed.setter
+    def breed(self, breed):
+        if isinstance(breed, str) and len(breed):
+            self._breed = breed
+        else:
+            raise Exception('Breed must be a non-empty string')
+          
+    @property
+    def price(self):
+        return self._price
+    
+    @price.setter
+    def price(self, price):
+        if isinstance(price, int):
+            self._price = price
+        else:
+            raise Exception('Price must be an integer')
+
+    @property
+    def age(self):
+        return self._age
+    
+    @age.setter
+    def age(self, age):
+        if isinstance(age, int):
+            self._age = age
+        else:
+            raise Exception('Age must be an integer')
+        
+    @property
+    def storeID(self):
+        return self._store_id
+    
+    @storeID.setter
+    def storeID(self, store_id):
+        if isinstance(store_id, int):
+            self._store_id = store_id
+        else:
+            raise Exception('Store id must be an integer')
+
 
     @classmethod
     def create_table(cls):
