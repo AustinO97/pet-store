@@ -66,18 +66,6 @@ class Pet:
     #         self._age = age
     #     else:
     #         raise Exception('Age must be an integer')
-        
-    @property
-    def store(self):
-        return self._store_name
-    
-    @store.setter
-    def store(self, store_name):
-        if isinstance(store_name, int):
-            self._store_name = store_name
-        else:
-            raise Exception('Store id must be an integer')
-
 
     @classmethod
     def create_table(cls):
@@ -194,3 +182,6 @@ class Pet:
         row = CURSOR.execute(sql, (self.store_name, )).fetchone()
         store = PetStore.instance_from_db(row)
         return store
+    
+    # def __repr__(self):
+    #     return f'<Pet {self.id}: {self.name}'

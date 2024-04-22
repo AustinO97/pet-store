@@ -1,4 +1,3 @@
-from models.__init__ import CONN, CURSOR
 from models.pet_store import PetStore
 from models.pet import Pet
 import ipdb;

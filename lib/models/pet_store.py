@@ -135,3 +135,6 @@ class PetStore:
         rows = CURSOR.execute(sql, (self.name, )).fetchall()
 
         return [Pet.instance_from_db(row) for row in rows]
+    
+    # def __repr__(self):
+    #     return f'<Pet Store {self.id}: {self.name}'
