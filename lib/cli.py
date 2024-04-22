@@ -1,6 +1,3 @@
-from models.pet import Pet
-from models.pet_store import PetStore
-
 from helpers import add_pet, display_pets, update_pet, delete_pet, add_pet_store, display_pet_stores, update_pet_store, delete_pet_store
 
 class Main():

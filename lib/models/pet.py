@@ -3,17 +3,14 @@ class Pet:
 
     all = {}
 
-    def __init__(self, name, species, breed, age, price, store_id, id = None):
+    def __init__(self, name, species, breed, age, price, store_name, id = None):
         self.id = id
         self.name = name
         self.species = species
         self.breed = breed
         self.age = age
         self.price = price
-        self.store_id = store_id
-
-    def __repr__(self):
-        return f'<Pet {self.id}: {self.name}, {self.species}, {self.breed}, {self.age}, {self.price}, {self.store_id}>'
+        self.store_name = store_name
     
     @property
     def name(self):
@@ -48,36 +45,36 @@ class Pet:
         else:
             raise Exception('Breed must be a non-empty string')
           
-    @property
-    def price(self):
-        return self._price
+    # @property
+    # def price(self):
+    #     return self._price
     
-    @price.setter
-    def price(self, price):
-        if isinstance(price, int):
-            self._price = price
-        else:
-            raise Exception('Price must be an integer')
+    # @price.setter
+    # def price(self, price):
+    #     if isinstance(price, int):
+    #         self._price = price
+    #     else:
+    #         raise Exception('Price must be an integer')
 
-    @property
-    def age(self):
-        return self._age
+    # @property
+    # def age(self):
+    #     return self._age
     
-    @age.setter
-    def age(self, age):
-        if isinstance(age, int):
-            self._age = age
-        else:
-            raise Exception('Age must be an integer')
+    # @age.setter
+    # def age(self, age):
+    #     if isinstance(age, int):
+    #         self._age = age
+    #     else:
+    #         raise Exception('Age must be an integer')
         
     @property
-    def storeID(self):
-        return self._store_id
+    def store(self):
+        return self._store_name
     
-    @storeID.setter
-    def storeID(self, store_id):
-        if isinstance(store_id, int):
-            self._store_id = store_id
+    @store.setter
+    def store(self, store_name):
+        if isinstance(store_name, int):
+            self._store_name = store_name
         else:
             raise Exception('Store id must be an integer')
 
@@ -92,8 +89,8 @@ class Pet:
             breed TEXT,
             age INT,
             price INT,
-            store_id INT,
-            FOREIGN KEY (store_id) REFERENCES store(id)
+            store_name TEXT,
+            FOREIGN KEY (store_name) REFERENCES stores(id)
             )
         '''
         CURSOR.execute(sql)
@@ -109,12 +106,12 @@ class Pet:
 
     def save(self):
         sql = '''
-            INSERT INTO pets (name, species, breed, age, price, store_id)
+            INSERT INTO pets (name, species, breed, age, price, store_name)
             VALUES (?, ?, ?, ?, ?, ?)
         '''
         CURSOR.execute(sql, (self.name, self.species, 
                              self.breed, self.age, 
-                             self.price, self.store_id))
+                             self.price, self.store_name))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -122,21 +119,21 @@ class Pet:
         Pet.all[self.id] = self
 
     @classmethod
-    def create(cls, name, species, breed, age, price, store_id):
-        pet = cls(name, species, breed, age, price, store_id)
+    def create(cls, name, species, breed, age, price, store_name):
+        pet = cls(name, species, breed, age, price, store_name)
         pet.save()
         return pet
     
     def update(self):
         sql = '''
             UPDATE pets
-            SET name = ?, species = ?, breed = ?, age = ?, price = ?, store_id = ?
+            SET name = ?, species = ?, breed = ?, age = ?, price = ?, store_name = ?
             WHERE id = ?
         '''
 
         CURSOR.execute(sql, (self.name, self.species, 
                              self.breed, self.age, self.price, 
-                             self.store_id, self.id))
+                             self.store_name, self.id))
         CONN.commit()
 
     def delete(self):
@@ -160,7 +157,7 @@ class Pet:
             pet.breed = row[3]
             pet.age = row[4]
             pet.price = row[5]
-            pet.store_id = row[6]
+            pet.store_name = row[6]
         else:
             pet = cls(row[1], row[2], row[3], row[4], row[5], row[6])
             pet.id = row[0]
@@ -191,9 +188,9 @@ class Pet:
         from models.pet_store import PetStore
         sql = '''
             SELECT * FROM stores
-            WHERE id = ?
+            WHERE name = ?
         '''
 
-        row = CURSOR.execute(sql, (self.store_id, )).fetchone()
+        row = CURSOR.execute(sql, (self.store_name, )).fetchone()
         store = PetStore.instance_from_db(row)
         return store

@@ -8,9 +8,6 @@ class PetStore:
         self.id = id
         self.name = name
         self.location = location
-
-    def __repr__(self):
-        return f'<Store {self.id}: {self.name}, {self.location}>'
     
     @property
     def name(self):
@@ -81,7 +78,7 @@ class PetStore:
             WHERE id = ?
         '''
 
-        CURSOR.execute(sql, (self.name, self.location))
+        CURSOR.execute(sql, (self.name, self.location, self.id))
         CONN.commit()
 
     def delete(self):
@@ -132,9 +129,9 @@ class PetStore:
         from models.pet import Pet
         sql = '''
             SELECT * FROM pets
-            WHERE store_id = ?
+            WHERE store_name = ?
         '''
 
-        rows = CURSOR.execute(sql, (self.id, )).fetchall()
+        rows = CURSOR.execute(sql, (self.name, )).fetchall()
 
         return [Pet.instance_from_db(row) for row in rows]

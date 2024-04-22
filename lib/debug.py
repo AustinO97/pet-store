@@ -10,10 +10,13 @@ def reset_database():
     PetStore.create_table()
 
 reset_database()
-petstore = PetStore.create('Petstore', 'Alton')
-ryleigh = Pet.create('Ryleigh', 'cat', 'black/white', 3, 150, petstore.id)
-lobster = Pet.create('Lobster', 'cat', 'orange', 2, 150, petstore.id)
-bean = Pet.create('bean', 'cat', 'spotted', 1, 0, None)
+petsmart = PetStore.create('Petsmart', 'Alton')
+furyfriends = PetStore.create('Fury Friends', 'Jupiter')
+ryleigh = Pet.create('Ryleigh', 'cat', 'domestic short hair', 3, 150, furyfriends.name)
+lobster = Pet.create('Lobster', 'cat', 'orange tabby', 2, 150, petsmart.name)
+bean = Pet.create('Bean', 'cat', 'black tabby', 1, 'Free', 'Stray')
+dobby = Pet.create('Dobby', 'dog', 'doberman pinscher mix', 1, 'Free', 'Stray')
+pat = Pet.create('Pat', 'dog', 'golden retriever', 2, 200, petsmart.name)
 
 
 ipdb.set_trace()
