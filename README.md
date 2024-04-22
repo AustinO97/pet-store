@@ -45,6 +45,4 @@ The directory structure is as follows:
 
 Seeding the database with sample data
 The file lib/seed.py contains code to initialize the database with sample departments and employees. Run the following command to seed the database:
-
 python lib/seed.py
-You can use the SQLITE EXPLORER extension to explore the initial database contents. (Another alternative is to run python lib/debug.py and use the ipbd session to explore the database)
