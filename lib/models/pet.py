@@ -67,6 +67,17 @@ class Pet:
     #     else:
     #         raise Exception('Age must be an integer')
 
+    @property
+    def store_name(self):
+        return self._store_name
+    
+    @store_name.setter
+    def store_name(self, store_name):
+        if isinstance(store_name, str) and len(store_name) >= 3:
+            self._store_name = store_name
+        else:
+            raise Exception('Store name must be a string with 3 or more characters')
+
     @classmethod
     def create_table(cls):
         sql = '''
@@ -78,7 +89,7 @@ class Pet:
             age INT,
             price INT,
             store_name TEXT,
-            FOREIGN KEY (store_name) REFERENCES stores(id)
+            FOREIGN KEY (store_name) REFERENCES stores(name)
             )
         '''
         CURSOR.execute(sql)

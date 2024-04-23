@@ -12,7 +12,7 @@ def add_pet():
     name = input("Enter the pet's name (enter Unknown if stray): ")
     species = input("Enter the pet's species : ")
     breed = input("Enter the pet's breed (enter Unknown if stray): ")
-    store = input("Enter the pet's store (enter Unknown if stray): ")
+    store = input("Enter the pet's store : ")
     age_input = input("Enter the pet's age (press Enter if stray): ")
     age = int(age_input) if age_input else 'Unknown'
     price_input = input("Enter the pet's price (press Enter if stray): ")
@@ -31,7 +31,7 @@ def display_pets():
     pets = Pet.get_all()
     for pet in pets:
         idx = pets.index(pet) + 1
-        print(f'{idx}. Name: {pet.name} | Species: {pet.species} | Breed: {pet.breed} | Age: {pet.age} | Store: {pet.store_name}')
+        print(f'{idx}. Name: {pet.name} | Species: {pet.species} | Breed: {pet.breed} | Age: {pet.age} | Price: {pet.price} | Store: {pet.store_name}')
 
 def update_pet():
     print('')
