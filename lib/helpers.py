@@ -13,6 +13,7 @@ def add_pet():
     species = input("Enter the pet's species : ")
     breed = input("Enter the pet's breed (enter Unknown if stray): ")
     store = input("Enter the pet's store : ")
+    store_name = PetStore.find_by_name(store)
     age_input = input("Enter the pet's age (press Enter if stray): ")
     age = int(age_input) if age_input else 'Unknown'
     price_input = input("Enter the pet's price (press Enter if stray): ")
@@ -21,7 +22,7 @@ def add_pet():
     # price = input("Enter the pet's price: ")
 
     try:
-        pet = Pet.create(name, species, breed, age, price, store)
+        pet = Pet.create(name, species, breed, age, price, store_name)
         print(f'Pet {pet.name} added!') if pet else None
     except Exception as exc:
         print('Error creating pet: ', exc)
@@ -31,7 +32,18 @@ def display_pets():
     pets = Pet.get_all()
     for pet in pets:
         idx = pets.index(pet) + 1
-        print(f'{idx}. Name: {pet.name} | Species: {pet.species} | Breed: {pet.breed} | Age: {pet.age} | Price: {pet.price} | Store: {pet.store_name}')
+        print(f'{idx}. Name: {pet.name} | Species: {pet.species} | Breed: {pet.breed} | Age: {pet.age} | Price: {pet.price} | Store: {pet.store_id}')
+
+def find_pet_by_breed():
+    print('')
+    pet_breed = input("Enter the pet's breed: ")
+    pets = Pet.find_by_breed(pet_breed)
+    if pets:
+        print(f'Here are the pets that match the breed {pet_breed}:')
+        for pet in pets:
+            print(f'Name: {pet.name} | Species: {pet.species} | Breed: {pet.breed} | Age: {pet.age} | Price: {pet.price} | Store: {pet.store_id}')
+    else:
+        print('No pets found with that breed')
 
 def update_pet():
     print('')
@@ -48,7 +60,7 @@ def update_pet():
             price_input = input("Enter the pet's price : ")
             price = int(price_input) if price_input else pet.price
             pet.price = price
-            store = input("Enter the pet's new store: ") or pet.store_name
+            store = input("Enter the pet's new store: ") or pet.store_id
             pet.store = store
 
             pet.update()

@@ -129,12 +129,12 @@ class PetStore:
         from models.pet import Pet
         sql = '''
             SELECT * FROM pets
-            WHERE store_name = ?
+            WHERE store_id = ?
         '''
 
-        rows = CURSOR.execute(sql, (self.name, )).fetchall()
+        rows = CURSOR.execute(sql, (self.id, )).fetchall()
 
         return [Pet.instance_from_db(row) for row in rows]
     
-    # def __repr__(self):
-    #     return f'<Pet Store {self.id}: {self.name}'
+    def __repr__(self):
+        return f'<Pet Store {self.id}: {self.name}'

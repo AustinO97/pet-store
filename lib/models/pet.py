@@ -3,14 +3,14 @@ class Pet:
 
     all = {}
 
-    def __init__(self, name, species, breed, age, price, store_name, id = None):
+    def __init__(self, name, species, breed, age, price, store_id = None, id = None):
         self.id = id
         self.name = name
         self.species = species
         self.breed = breed
         self.age = age
         self.price = price
-        self.store_name = store_name
+        self.store_id = store_id
     
     @property
     def name(self):
@@ -67,16 +67,6 @@ class Pet:
     #     else:
     #         raise Exception('Age must be an integer')
 
-    @property
-    def store_name(self):
-        return self._store_name
-    
-    @store_name.setter
-    def store_name(self, store_name):
-        if isinstance(store_name, str) and len(store_name) >= 3:
-            self._store_name = store_name
-        else:
-            raise Exception('Store name must be a string with 3 or more characters')
 
     @classmethod
     def create_table(cls):
@@ -88,8 +78,8 @@ class Pet:
             breed TEXT,
             age INT,
             price INT,
-            store_name TEXT,
-            FOREIGN KEY (store_name) REFERENCES stores(name)
+            store_id INT,
+            FOREIGN KEY (store_id) REFERENCES stores(id)
             )
         '''
         CURSOR.execute(sql)
@@ -105,12 +95,12 @@ class Pet:
 
     def save(self):
         sql = '''
-            INSERT INTO pets (name, species, breed, age, price, store_name)
+            INSERT INTO pets (name, species, breed, age, price, store_id)
             VALUES (?, ?, ?, ?, ?, ?)
         '''
         CURSOR.execute(sql, (self.name, self.species, 
                              self.breed, self.age, 
-                             self.price, self.store_name))
+                             self.price, self.store_id))
         CONN.commit()
 
         self.id = CURSOR.lastrowid
@@ -118,21 +108,21 @@ class Pet:
         Pet.all[self.id] = self
 
     @classmethod
-    def create(cls, name, species, breed, age, price, store_name):
-        pet = cls(name, species, breed, age, price, store_name)
+    def create(cls, name, species, breed, age, price, store_id):
+        pet = cls(name, species, breed, age, price, store_id)
         pet.save()
         return pet
     
     def update(self):
         sql = '''
             UPDATE pets
-            SET name = ?, species = ?, breed = ?, age = ?, price = ?, store_name = ?
+            SET name = ?, species = ?, breed = ?, age = ?, price = ?, store_id = ?
             WHERE id = ?
         '''
 
         CURSOR.execute(sql, (self.name, self.species, 
                              self.breed, self.age, self.price, 
-                             self.store_name, self.id))
+                             self.store_id, self.id))
         CONN.commit()
 
     def delete(self):
@@ -156,7 +146,7 @@ class Pet:
             pet.breed = row[3]
             pet.age = row[4]
             pet.price = row[5]
-            pet.store_name = row[6]
+            pet.store_id = row[6]
         else:
             pet = cls(row[1], row[2], row[3], row[4], row[5], row[6])
             pet.id = row[0]
@@ -183,16 +173,37 @@ class Pet:
         row = CURSOR.execute(sql, (name, )).fetchone()
         return cls.instance_from_db(row) if row else None
     
+    @classmethod
+    def find_by_breed(cls, breed):
+        sql = '''
+            SELECT *
+            FROM pets
+            WHERE breed = ?
+        '''
+
+        rows = CURSOR.execute(sql, (breed, )).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
+    
+    @classmethod
+    def find_by_id(cls, id):
+        sql = '''
+            SELECT *
+            FROM pets
+            WHERE id = ?
+        '''
+        row = CURSOR.execute(sql, (id, )).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
     def store(self):
         from models.pet_store import PetStore
         sql = '''
             SELECT * FROM stores
-            WHERE name = ?
+            WHERE id = ?
         '''
 
-        row = CURSOR.execute(sql, (self.store_name, )).fetchone()
+        row = CURSOR.execute(sql, (self.store_id, )).fetchone()
         store = PetStore.instance_from_db(row)
         return store
     
-    # def __repr__(self):
-    #     return f'<Pet {self.id}: {self.name}'
+    def __repr__(self):
+        return f'<Pet {self.id}: {self.name}'

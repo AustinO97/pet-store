@@ -1,6 +1,6 @@
-from helpers import add_pet, display_pets, update_pet, delete_pet, add_pet_store, display_pet_stores, update_pet_store, delete_pet_store
+from helpers import add_pet, display_pets, find_pet_by_breed, update_pet, delete_pet, add_pet_store, display_pet_stores, update_pet_store, delete_pet_store
 
-class Main():
+class Main:
 
     def display_main_menu(self):
         print('\nPet Management System')
@@ -12,9 +12,10 @@ class Main():
         print('\nPet Management Menu')
         print('1. Add a Pet')
         print('2. View All Pets')
-        print('3. Update a Pet')
-        print('4. Delete a Pet')
-        print('5. Back to Main Menu')
+        print('3. View Pets by breed')
+        print('4. Update a Pet')
+        print('5. Delete a Pet')
+        print('6. Back to Main Menu')
 
     def display_store_menu(self):
         print('\nPet Store Management Menu')
@@ -48,10 +49,12 @@ class Main():
             elif choice == '2':
                 display_pets()
             elif choice == '3':
-                update_pet()
+                find_pet_by_breed()
             elif choice == '4':
-                delete_pet()
+                update_pet()
             elif choice == '5':
+                delete_pet()
+            elif choice == '6':
                 break
             else:
                 print('Invalid choice. Please try again.')
