@@ -12,17 +12,16 @@ def add_pet():
     name = input("Enter the pet's name (enter Unknown if stray): ")
     species = input("Enter the pet's species : ")
     breed = input("Enter the pet's breed (enter Unknown if stray): ")
-    store = input("Enter the pet's store : ")
-    store_name = PetStore.find_by_name(store)
+    store_name = input("Enter the pet's store : ")
     age_input = input("Enter the pet's age (press Enter if stray): ")
     age = int(age_input) if age_input else 'Unknown'
     price_input = input("Enter the pet's price (press Enter if stray): ")
     price = int(price_input) if price_input else 'Free'
-    # age = input("Enter the pet's age: ")
-    # price = input("Enter the pet's price: ")
 
     try:
-        pet = Pet.create(name, species, breed, age, price, store_name)
+        store = PetStore.find_by_name(store_name)
+        store_id = store.id if store else None
+        pet = Pet.create(name, species, breed, age, price, store_id)
         print(f'Pet {pet.name} added!') if pet else None
     except Exception as exc:
         print('Error creating pet: ', exc)
@@ -60,8 +59,15 @@ def update_pet():
             price_input = input("Enter the pet's price : ")
             price = int(price_input) if price_input else pet.price
             pet.price = price
-            store = input("Enter the pet's new store: ") or pet.store_id
-            pet.store = store
+            store_name = input("Enter the pet's new store: ") or None
+            if store_name:
+                store = PetStore.find_by_name(store_name)
+                if store:
+                    pet.store_id = store.id
+                else:
+                    print("Store not found. Pet's store remains unchanged.")
+            else:
+                pet.store_id = None
 
             pet.update()
             print(f'Success: {pet.name} updated!')
@@ -72,12 +78,20 @@ def update_pet():
 
 def delete_pet():
     print('')
-    name = input("Enter the pet's name: ")
-    if pet := Pet.find_by_name(name):
-        pet.delete()
-        print(f'Pet {name} deleted')
+    search_input = input("Enter the pet's name or ID: ")
+    if search_input.isdigit():
+        pet_id = int(search_input)
+        if pet := Pet.find_by_id(pet_id):
+            pet.delete()
+            print(f'Pet with ID {pet_id} deleted')
+        else:
+            print(f'Pet with ID {pet_id} not found')
     else:
-        print(f'Pet {name} not found')
+        if pet := Pet.find_by_name(search_input):
+            pet.delete()
+            print(f'Pet {search_input} deleted')
+        else:
+            print(f'Pet {search_input} not found')
 
 # PetStore helper functions
         
@@ -98,6 +112,17 @@ def display_pet_stores():
     for store in stores:
         idx = stores.index(store) + 1
         print(f'{idx}. Store Name: {store.name} | Location: {store.location}')
+
+def find_store_by_location():
+    print('')
+    store_location = input("Enter the stores location: ")
+    stores = PetStore.find_by_location(store_location)
+    if stores:
+        print(f'Here are the stores that match the location {store_location}:')
+        for store in stores:
+            print(f'Name: {store.name} | {store.location}')
+    else:
+        print('No stores found with that location, store names are case sensitive')
 
 def update_pet_store():
     print('')

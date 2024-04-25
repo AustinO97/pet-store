@@ -1,4 +1,15 @@
-from helpers import add_pet, display_pets, find_pet_by_breed, update_pet, delete_pet, add_pet_store, display_pet_stores, update_pet_store, delete_pet_store
+from helpers import (
+    add_pet, 
+    display_pets, 
+    find_pet_by_breed, 
+    update_pet, 
+    delete_pet, 
+    add_pet_store, 
+    display_pet_stores, 
+    find_store_by_location, 
+    update_pet_store, 
+    delete_pet_store
+)
 
 class Main:
 
@@ -21,6 +32,7 @@ class Main:
         print('\nPet Store Management Menu')
         print('1. Add a Pet Store')
         print('2. View All Pet Stores')
+        print('3. View Stores by location')
         print('3. Update a Pet Store')
         print('4. Delete a Pet Store')
         print('5. Back to Main Menu')
@@ -68,10 +80,12 @@ class Main:
             elif choice == '2':
                 display_pet_stores()
             elif choice == '3':
-                update_pet_store()
+                find_store_by_location()
             elif choice == '4':
-                delete_pet_store()
+                update_pet_store()
             elif choice == '5':
+                delete_pet_store()
+            elif choice == '6':
                 break
             else:
                 print('Invalid choice. Please try again')

@@ -44,29 +44,6 @@ class Pet:
             self._breed = breed
         else:
             raise Exception('Breed must be a non-empty string')
-          
-    # @property
-    # def price(self):
-    #     return self._price
-    
-    # @price.setter
-    # def price(self, price):
-    #     if isinstance(price, int):
-    #         self._price = price
-    #     else:
-    #         raise Exception('Price must be an integer')
-
-    # @property
-    # def age(self):
-    #     return self._age
-    
-    # @age.setter
-    # def age(self, age):
-    #     if isinstance(age, int):
-    #         self._age = age
-    #     else:
-    #         raise Exception('Age must be an integer')
-
 
     @classmethod
     def create_table(cls):

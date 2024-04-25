@@ -125,6 +125,27 @@ class PetStore:
         row = CURSOR.execute(sql, (name, )).fetchone()
         return cls.instance_from_db(row) if row else None
     
+    @classmethod
+    def find_by_id(cls, id):
+        sql = '''
+            SELECT *
+            FROM stores
+            WHERE id = ?
+        '''
+        row = CURSOR.execute(sql, (id, )).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
+    @classmethod
+    def find_by_location(cls, location):
+        sql = '''
+            SELECT *
+            FROM stores
+            WHERE location = ?
+        '''
+
+        rows = CURSOR.execute(sql, (location, )).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
+    
     def pets(self):
         from models.pet import Pet
         sql = '''
